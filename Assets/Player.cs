@@ -35,11 +35,13 @@ public class Player : MonoBehaviour
 
         if (cameraScript.active)
         {
+            Screen.showCursor = false;
             gameOver.active = false;
             gameOverButton.active = false;
         }
         else
         {
+            Screen.showCursor = true;
             gameOver.active = true;
             gameOverButton.active = true;
         }
@@ -61,7 +63,9 @@ public class Player : MonoBehaviour
 
             for (int i = 1; i <= numberOfEnemies; i++)
             {
-                Vector2 screenLocation = new Vector2(Random.Range(0, Screen.width), -100);
+                int y = Random.Range(0, 100);
+
+                Vector2 screenLocation = new Vector2(Random.Range(0, Screen.width), -y);
                 Vector2 worldLocation = mainCamera.ScreenToWorldPoint(screenLocation);
                 Instantiate(enemyPrefab, worldLocation, Quaternion.identity);
             }

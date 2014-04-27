@@ -5,6 +5,7 @@ public class TryAgainButton : MonoBehaviour
 {
     public CameraScript cameraScript;
     public Player player;
+    public Animation instructions;
 
     void OnMouseDown()
     {
@@ -19,6 +20,7 @@ public class TryAgainButton : MonoBehaviour
         }
 
         cameraScript.active = true;
+        instructions.Play();
         player.StartCoroutines();
     }
 }
