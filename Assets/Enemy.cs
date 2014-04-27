@@ -22,5 +22,7 @@ public class Enemy : MonoBehaviour
     {
         CameraScript mainCamera = other.transform.parent.GetComponent(typeof(CameraScript)) as CameraScript;
         mainCamera.active = false;
+        Player player = other.GetComponentInChildren(typeof(Player)) as Player;
+        player.StopAllCoroutines();
     }
 }

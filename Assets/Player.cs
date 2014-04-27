@@ -45,6 +45,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void StartCoroutines()
+    {
+        StartCoroutine(NextLevel());
+        StartCoroutine(GenerateEnemies());
+    }
+
     IEnumerator GenerateEnemies()
     {
         while (cameraScript.active)
