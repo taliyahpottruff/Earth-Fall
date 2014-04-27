@@ -11,15 +11,29 @@ public class Player : MonoBehaviour
     public CameraScript cameraScript;
     public GameObject gameOver;
     public GameObject gameOverButton;
+    public GUIText gameOverScores;
+    public GameObject resetScores;
     public bool limitLevels;
     public int level;
     public int maxLevel;
     public int score;
+    public int highscore;
+    public Animation bronzeAchievement;
+    public bool hasBronze;
+    public Animation silverAchievement;
+    public bool hasSilver;
+    public Animation goldAchievement;
+    public bool hasGold;
 
     void Start()
     {
         StartCoroutine(NextLevel());
         StartCoroutine(GenerateEnemies());
+
+        highscore = PlayerPrefs.GetInt("highscore", 0);
+        hasBronze = bool.Parse(PlayerPrefs.GetString("hasBronze", "false"));
+        hasSilver = bool.Parse(PlayerPrefs.GetString("hasSilver", "false"));
+        hasGold = bool.Parse(PlayerPrefs.GetString("hasGold", "false"));
     }
 
     void Update()
@@ -27,8 +41,10 @@ public class Player : MonoBehaviour
         mousePosition = Input.mousePosition;
         mousePosition = mainCamera.ScreenToWorldPoint(mousePosition);
 
-        if (cameraScript.active)
-        transform.position = mousePosition;
+        Rect screen = new Rect(0, 0, Screen.width, Screen.height);
+
+        if (cameraScript.active & screen.Contains(Input.mousePosition))
+            transform.position = mousePosition;
 
         levelDisplay.text = "Level: " + level;
         scoreDisplay.text = "Score: " + score;
@@ -38,12 +54,58 @@ public class Player : MonoBehaviour
             Screen.showCursor = false;
             gameOver.active = false;
             gameOverButton.active = false;
+            gameOverScores.gameObject.active = false;
+            resetScores.active = false;
         }
         else
         {
             Screen.showCursor = true;
             gameOver.active = true;
             gameOverButton.active = true;
+            gameOverScores.gameObject.active = true;
+            gameOverScores.text = "Highscore - " + highscore + " | Score - " + score;
+            resetScores.active = true;
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                highscore = 0;
+                PlayerPrefs.SetInt("highscore", highscore);
+                PlayerPrefs.Save();
+            }
+        }
+
+        if (score >= 100 & !hasBronze)
+        {
+            hasBronze = true;
+            bronzeAchievement.Play();
+            PlayerPrefs.SetString("hasBronze", hasBronze.ToString());
+            PlayerPrefs.Save();
+        }
+
+        if (level >= 10 & !hasSilver)
+        {
+            hasSilver = true;
+            silverAchievement.Play();
+            PlayerPrefs.SetString("hasSilver", hasSilver.ToString());
+            PlayerPrefs.Save();
+        }
+
+        if (level >= 100 & !hasGold)
+        {
+            hasGold = true;
+            goldAchievement.Play();
+            PlayerPrefs.SetString("hasGold", hasGold.ToString());
+            PlayerPrefs.Save();
+        }
+    }
+
+    public void EndGame()
+    {
+        if (score > highscore)
+        {
+            highscore = score;
+            PlayerPrefs.SetInt("highscore", highscore);
+            PlayerPrefs.Save();
         }
     }
 

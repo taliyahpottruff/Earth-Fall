@@ -24,5 +24,6 @@ public class Enemy : MonoBehaviour
         mainCamera.active = false;
         Player player = other.GetComponentInChildren(typeof(Player)) as Player;
         player.StopAllCoroutines();
+        player.EndGame();
     }
 }
