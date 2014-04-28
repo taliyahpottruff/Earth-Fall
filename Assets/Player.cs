@@ -24,6 +24,9 @@ public class Player : MonoBehaviour
     public bool hasSilver;
     public Animation goldAchievement;
     public bool hasGold;
+    public GameObject bronze;
+    public GameObject silver;
+    public GameObject gold;
 
     void Start()
     {
@@ -49,6 +52,10 @@ public class Player : MonoBehaviour
         levelDisplay.text = "Level: " + level;
         scoreDisplay.text = "Score: " + score;
 
+        bronze.active = hasBronze;
+        silver.active = hasSilver;
+        gold.active = hasGold;
+
         if (cameraScript.active)
         {
             Screen.showCursor = false;
@@ -56,6 +63,30 @@ public class Player : MonoBehaviour
             gameOverButton.active = false;
             gameOverScores.gameObject.active = false;
             resetScores.active = false;
+
+            if (score >= 100 & !hasBronze)
+            {
+                hasBronze = true;
+                bronzeAchievement.Play();
+                PlayerPrefs.SetString("hasBronze", hasBronze.ToString());
+                PlayerPrefs.Save();
+            }
+
+            if (level >= 10 & !hasSilver)
+            {
+                hasSilver = true;
+                silverAchievement.Play();
+                PlayerPrefs.SetString("hasSilver", hasSilver.ToString());
+                PlayerPrefs.Save();
+            }
+
+            if (level >= 100 & !hasGold)
+            {
+                hasGold = true;
+                goldAchievement.Play();
+                PlayerPrefs.SetString("hasGold", hasGold.ToString());
+                PlayerPrefs.Save();
+            }
         }
         else
         {
@@ -69,33 +100,15 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.R))
             {
                 highscore = 0;
+                hasBronze = false;
+                hasSilver = false;
+                hasGold = false;
                 PlayerPrefs.SetInt("highscore", highscore);
+                PlayerPrefs.SetString("hasBronze", hasBronze.ToString());
+                PlayerPrefs.SetString("hasSilver", hasSilver.ToString());
+                PlayerPrefs.SetString("hasGold", hasGold.ToString());
                 PlayerPrefs.Save();
             }
-        }
-
-        if (score >= 100 & !hasBronze)
-        {
-            hasBronze = true;
-            bronzeAchievement.Play();
-            PlayerPrefs.SetString("hasBronze", hasBronze.ToString());
-            PlayerPrefs.Save();
-        }
-
-        if (level >= 10 & !hasSilver)
-        {
-            hasSilver = true;
-            silverAchievement.Play();
-            PlayerPrefs.SetString("hasSilver", hasSilver.ToString());
-            PlayerPrefs.Save();
-        }
-
-        if (level >= 100 & !hasGold)
-        {
-            hasGold = true;
-            goldAchievement.Play();
-            PlayerPrefs.SetString("hasGold", hasGold.ToString());
-            PlayerPrefs.Save();
         }
     }
 
@@ -139,10 +152,6 @@ public class Player : MonoBehaviour
                 {
                     Enemy enemy1 = enemyPrefab.GetComponent(typeof(Enemy)) as Enemy;
                     enemy1.enemyBehaviour = EnemyBehaviour.Up;
-                    Instantiate(enemyPrefab, worldLocation, Quaternion.identity);
-
-                    Enemy enemy2 = enemyPrefab.GetComponent(typeof(Enemy)) as Enemy;
-                    enemy2.enemyBehaviour = EnemyBehaviour.Down;
                     Instantiate(enemyPrefab, worldLocation, Quaternion.identity);
 
                     Enemy enemy3 = enemyPrefab.GetComponent(typeof(Enemy)) as Enemy;

@@ -49,6 +49,8 @@
      <Compile Include="Assets\CameraScript.cs" />
      <Compile Include="Assets\Enemy.cs" />
      <Compile Include="Assets\Player.cs" />
+     <Compile Include="Assets\SplashScreen.cs" />
+     <Compile Include="Assets\StartScreen.cs" />
      <Compile Include="Assets\TryAgainButton.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
