@@ -129,7 +129,30 @@ public class Player : MonoBehaviour
 
                 Vector2 screenLocation = new Vector2(Random.Range(0, Screen.width), -y);
                 Vector2 worldLocation = mainCamera.ScreenToWorldPoint(screenLocation);
+                Enemy enemy = enemyPrefab.GetComponent(typeof(Enemy)) as Enemy;
+                enemy.enemyBehaviour = EnemyBehaviour.None;
                 Instantiate(enemyPrefab, worldLocation, Quaternion.identity);
+
+                float random = Random.Range(0f, 1f);
+
+                if (level >= 10 & random < (float)((float) level / 100f))
+                {
+                    Enemy enemy1 = enemyPrefab.GetComponent(typeof(Enemy)) as Enemy;
+                    enemy1.enemyBehaviour = EnemyBehaviour.Up;
+                    Instantiate(enemyPrefab, worldLocation, Quaternion.identity);
+
+                    Enemy enemy2 = enemyPrefab.GetComponent(typeof(Enemy)) as Enemy;
+                    enemy2.enemyBehaviour = EnemyBehaviour.Down;
+                    Instantiate(enemyPrefab, worldLocation, Quaternion.identity);
+
+                    Enemy enemy3 = enemyPrefab.GetComponent(typeof(Enemy)) as Enemy;
+                    enemy3.enemyBehaviour = EnemyBehaviour.Left;
+                    Instantiate(enemyPrefab, worldLocation, Quaternion.identity);
+
+                    Enemy enemy4 = enemyPrefab.GetComponent(typeof(Enemy)) as Enemy;
+                    enemy4.enemyBehaviour = EnemyBehaviour.Right;
+                    Instantiate(enemyPrefab, worldLocation, Quaternion.identity);
+                }
             }
 
             yield return new WaitForSeconds(1);
