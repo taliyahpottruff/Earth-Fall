@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
 
         if (cameraScript.active)
         {
-            Screen.showCursor = false;
+            Cursor.visible = false;
             gameOver.active = false;
             gameOverButton.active = false;
             gameOverScores.gameObject.active = false;
@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            Screen.showCursor = true;
+            Cursor.visible = true;
             gameOver.active = true;
             gameOverButton.active = true;
             gameOverScores.gameObject.active = true;
