@@ -27,9 +27,12 @@ public class Player : MonoBehaviour
     public GameObject bronze;
     public GameObject silver;
     public GameObject gold;
+    private float startingY;
 
     void Start()
     {
+        startingY = Camera.main.transform.position.y;
+
         StartCoroutine(NextLevel());
         StartCoroutine(GenerateEnemies());
 
@@ -56,13 +59,14 @@ public class Player : MonoBehaviour
         silver.active = hasSilver;
         gold.active = hasGold;
 
-        if (cameraScript.active)
-        {
+        if (cameraScript.active) { //Game logic goes here
             Cursor.visible = false;
             gameOver.active = false;
             gameOverButton.active = false;
             gameOverScores.gameObject.active = false;
             resetScores.active = false;
+
+            score = (int)(startingY - Camera.main.transform.position.y) * 2;
 
             if (score >= 100 & !hasBronze)
             {
@@ -132,8 +136,6 @@ public class Player : MonoBehaviour
     {
         while (cameraScript.active)
         {
-            score += 10;
-
             int numberOfEnemies = Random.Range(0, level * 2);
 
             for (int i = 1; i <= numberOfEnemies; i++)
